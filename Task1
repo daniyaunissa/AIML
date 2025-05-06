@@ -1,0 +1,115 @@
+import random
+
+#creating a Pet class
+class Pet():
+  def __init__(self,name,species,age):
+    self.name=name
+    self.species=species
+    self.age=age
+  def display_info(self):
+    print(f"name : {self.name}")
+    print(f"species: {self.species}")
+    print(f"age: {self.age}")
+
+#creating a child class for Pet
+class Dog(Pet):
+    def __init__(self,name,age,breed,color):
+      super().__init__(name,"Dog",age)
+      self.breed=breed
+      self.color=color
+    def display_info(self):
+      super().display_info()
+      print(f"Breed: {self.breed}, Color: {self.color}")
+      print(f"Care Preferences: {care_preferences['Dog']}")
+
+#creating another child class
+class Cat(Pet):
+    def __init__(self, name, age, breed, color):
+        super().__init__(name, "Cat", age)
+        self.breed = breed
+        self.color = color
+
+    def display_info(self):
+        super().display_info()
+        print(f"Breed: {self.breed}, Color: {self.color}")
+        print(f"Care Preferences: {care_preferences['Cat']}")
+
+#dictionary for pet_shelter
+pet_shelter = {}
+
+#tuple for care preferences
+care_preferences = {
+    "Dog": ("Bones", "Daily Walk"),
+    "Cat": ("Fish", "Warm Blanket")
+}
+
+#function to add pet
+def add_pet():
+    species = input("Enter species (Dog/Cat): ").capitalize()
+    name = input("Enter name: ")
+    age = int(input("Enter age: "))
+    breed = input("Enter breed: ")
+    color = input("Enter color: ")
+
+    pet_id = random.randint(1000, 9999)
+    while pet_id in pet_shelter:
+        pet_id = random.randint(1000, 9999)
+
+    if species == "Dog":
+        pet = Dog(name, age, breed, color)
+    elif species == "Cat":
+        pet = Cat(name, age, breed, color)
+    else:
+        print("Invalid species!")
+        return
+
+    pet_shelter[pet_id] = pet
+    print(f"{species} added with ID {pet_id}.")
+
+#functiom to view pets
+
+def view_pets():
+    if not pet_shelter:
+        print("No pets available.")
+    else:
+        for pet_id, pet in pet_shelter.items():
+            print(f"\nPet ID: {pet_id}")
+            pet.display_info()
+
+#function to adopt pets
+
+def adopt_pet():
+    pet_id = int(input("Enter the Pet ID to adopt: "))
+    if pet_id in pet_shelter:
+        print(f"You have adopted {pet_shelter[pet_id].name}!")
+        del pet_shelter[pet_id]
+    else:
+        print("Pet ID not found.")
+
+#function of menu
+
+def menu():
+    while True:
+        print("\n--- Pet Adoption Menu ---")
+        print("1. View Pets")
+        print("2. Add Pet")
+        print("3. Adopt Pet")
+        print("4. Exit")
+
+        choice = input("Enter your choice: ")
+        if choice == '1':
+            view_pets()
+        elif choice == '2':
+            add_pet()
+        elif choice == '3':
+            adopt_pet()
+        elif choice == '4':
+            print("Thank you for using the Pet Adoption System!")
+            break
+        else:
+            print("Invalid choice. Try again.")
+
+
+menu()
+
+
